@@ -41,10 +41,10 @@ class imageProcessing():
 
     def removeFiles(self):
         # Remove words-text.csv & words-boxs.csv
-        if os.path.exists("words-text.csv"):
-            os.remove('words-text.csv')
-        if os.path.exists("words-boxs.csv"):
-            os.remove('words-boxs.csv')
+        if os.path.exists("data/words-text.csv"):
+            os.remove('data/words-text.csv')
+        if os.path.exists("data/words-boxs.csv"):
+            os.remove('data/words-boxs.csv')
 
     def createCSV(self, words):
         # Creating words-text.csv ( Contains all words that are found)
@@ -53,7 +53,7 @@ class imageProcessing():
             tempList = list([words[k]])
             temptList = tempList
             k = k + 1
-            with open('words-text.csv', 'a', newline='') as f_object:
+            with open('data/words-text.csv', 'a', newline='') as f_object:
                 # Pass File object to Writer object
                 writer_object = writer(f_object)
                 # Append list as last row in the csv file
@@ -68,7 +68,7 @@ class imageProcessing():
             if d['text'][i] != "":
                 (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
                 wList = list([x, y, w, h])
-                with open('words-boxs.csv', 'a', newline='') as f_object:
+                with open('data/words-boxs.csv', 'a', newline='') as f_object:
                     # Pass File object to Writer object
                     writer_object = writer(f_object)
                     # Append the List to next csv row
@@ -80,7 +80,7 @@ class imageProcessing():
     def matchWords(self, words,temp,main):
         # Match the words with the words in the csv file
         indexList = []
-        with open('words-matched.csv', 'w') as outFile:
+        with open('data/words-matched.csv', 'w') as outFile:
             for line in temp:
                 if line in main:
                     outFile.write(line)
@@ -92,7 +92,7 @@ class imageProcessing():
         return indexList
 
     def drawBoxes(self, img, indexList):
-        with open('words-boxs.csv', 'r') as f:
+        with open('data/words-boxs.csv', 'r') as f:
             read = list(csv.reader(f))
             for i, value in enumerate(read):
                 if i in indexList:
@@ -103,7 +103,6 @@ class imageProcessing():
         return "output.png"
 
 
-
     def run(self, img):
         self.removeFiles()
         img = cv2.imread(img)
@@ -111,7 +110,7 @@ class imageProcessing():
         words, d = self.getWords(tempImg)
         self.createCSV(words)
         self.boundBoxesCSV(d)
-        with open('data/bad.csv', 'r') as csv1, open('words-text.csv', 'r') as csv2:
+        with open('data/bad.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
             # Main = Bad Words Dataset
             # Temp = Dataset created from inputted image
             main = csv1.readlines()
