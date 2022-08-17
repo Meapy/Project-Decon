@@ -99,7 +99,8 @@ class imageProcessing():
                     (x, y, w, h) = (int(value[0]), int(value[1]), int(value[2]), int(value[3]))
                     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 0), -1)
                     print(i, value)
-        cv2.imwrite("data/output/box.png", img)
+        cv2.imwrite("static/images/output.png", img)
+        return "output.png"
 
 
 
@@ -117,9 +118,8 @@ class imageProcessing():
             temp = csv2.readlines()
         matchedWords = self.matchWords(words,temp,main)
         print(matchedWords)
-        self.drawBoxes(img, matchedWords)
-
-
+        image = self.drawBoxes(img, matchedWords)
+        return image
 
 if __name__ == "__main__":
     img = "data/letter.png"
