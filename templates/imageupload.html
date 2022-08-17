@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
   <title>Decon</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,9 +22,9 @@
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Links <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="https://github.com/Meapy/Project-Decon">Project Decon</a></li>
-                    <li><a href="https://github.com/NikolayMal">Nikolay M</a></li>
-                    <li><a href="https://github.com/Meapy">Daniel K</a></li>
+                    <li><a href="https://github.com/Meapy/Project-Decon" target="_blank">Project Decon</a></li>
+                    <li><a href="https://github.com/NikolayMal" target="_blank">Nikolay M</a></li>
+                    <li><a href="https://github.com/Meapy" target="_blank">Daniel K</a></li>
                 </ul>
               </li>
           </ul>
@@ -34,10 +33,6 @@
       </nav>
       
     
-    <div class="container-fluid">
-        <h5 class="text-center">--center--</h5>
-    </div>
-    <img src="/static/images/{{ user_image }}" alt="User Image">
       <div class="container-fluid" style="border:1px black solid;">
         <div class="row">
             <div class="col-lg-6" style="border:1px black solid; padding:10%;">
@@ -49,8 +44,8 @@
                         <input type="submit" value="Submit">
                     </form>
                 <br>
-                <p style="color:blue;">Choose image file to upload</p>
-                <form action="/show_data" target="_blank">
+                <p style="color:green;">File uploaded successfully</p>
+                <form action="/imageshow" target="_blank">
                         <input type="submit" value="Show Image" />
                     </form>
 
