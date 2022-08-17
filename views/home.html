@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+  <title>Lab 5</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/templatemo-chain-app-dev.css">
+  <link rel="stylesheet" href="/css/animated.css">
+  <link rel="stylesheet" href="/css/owl.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <!-- ***** Logo Start ***** -->
+            <a href="/" class="logo">
+              <img src="/images/logo.png" alt="Chain App Dev">
+            </a>
+            <!-- ***** Logo End ***** -->
+            <!-- ***** Menu Start ***** -->
+            <ul class="nav">
+              <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+              <li class="scroll-to-section"><a href="#services">Services</a></li>
+              <li class="scroll-to-section"><a href="#about">About</a></li>
+              <li>
+                <div class="gradient-button"><a id="modal_trigger" href="/users/logout/"><i
+                      class="fa fa-sign-in-alt"></i> Logout </a></div>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-lg-6 align-self-center">
+              <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
+                <h1>Hello, <%= name %>
+                </h1>
+                <!-- form to allow user to enter their data-->
+                <!-- Date of Birth, City of Birth, Email, Address, 
+                  Gender, Hobbies, Civil state, Profession, Salary per year, 
+                  upload a picture, and favourite sport -->
+                <div class="userData">
+                  <form>
+                    <label>name: </label>
+                    <input type="text" name="name" value="<%= name %>">
+                    <br>
+                    <label>email: </label>
+                    <input type="text" name="email" value="<%= email %>">
+                    <br>
+                    <label>Birthday</label>
+                    <input type="date" name="birthday" value="<%= dob %>">
+                    <br>
+                    <label>City of Birth</label>
+                    <input type="text" name="city" value="<%= city %>">
+                    <br>
+                    <label>Address</label>
+                    <input type="text" name="address" value="<%= address %>">
+                    <br>
+                    <label> Gender </label>
+                    <input type="text" name="gender" value="<%= gender %>">
+                    <br>
+                    <label>Hobbies</label>
+                    <input type="text" name="hobbies" value="<%= hobbies %>">
+                    <br>
+                    <label>Civil state</label>
+                    <input type="text" name="civilS" value="<%= civilS %>">
+                    <br>
+                    <label>Profession</label>
+                    <input type="text" name="job" value="<%= job %>">
+                    <br>
+                    <label>Salary per year</label>
+                    <input type="text" name="salary" value="<%= salary %>">
+                    <br>
+                    <label>Favourite sport</label>
+                    <input type="text" name="sport" value="<%= sport %>">
+                    <br>
+                    <label>Upload a picture</label>
+                    <input type="file" name="picture" value="<%= picture %>">
+                    <br>
+                    <button class="saveData" class="btn btn-primary">Save Data</button>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+            <script>
+            </script>
+            <div class="col-lg-6">
+              <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+                <img src="/images/slider-dec.png" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/jquery/jquery.min.js"></script>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/owl-carousel.js"></script>
+  <script src="/js/animation.js"></script>
+  <script src="/js/imagesloaded.js"></script>
+  <script src="/js/popup.js"></script>
+  <script src="/js/custom.js"></script>
+  <script src="/js/scripts.js"></script>
+</body>
+
+</html>
