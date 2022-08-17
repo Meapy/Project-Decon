@@ -87,19 +87,15 @@ with open('data/bad.csv', 'r') as csv1, open('words-text.csv', 'r') as csv2:
     temp = csv2.readlines()
 
 indexList = []
-print('The matching words are:')
 # Open the words-matched.csv File and write in any matched words
 with open('words-matched.csv', 'w') as outFile:
     for line in temp:
         if line in main:
             outFile.write(line)
-            print(''.join(line))
             line = line.replace("\n", "")
             index = words.index(line)
             words[index] = words[index].replace(line, line + ' ')  # needed for duplicates
-            print(index)
             indexList.append(index)
-print(indexList)
 
 # Draw Rectangle on the bad words
 with open('words-boxs.csv', 'r') as f:
