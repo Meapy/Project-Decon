@@ -41,21 +41,32 @@
       <div class="container-fluid" style="border:1px black solid;">
         <div class="row">
             <div class="col-lg-6" style="border:1px black solid; padding:10%;">
-                                <h1>Upload and display image in Flask</h1>
-                    <p>Show image in html using FLASK</p>
-                
-                    <form method="POST" enctype="multipart/form-data" action="/">
-                        <input type="file" id="myFile" name="uploaded-file" accept=".jpg">
-                        <input type="submit" value="Submit">
-                    </form>
-                <br>
-                <p style="color:blue;">Choose image file to upload</p>
-                <form action="/show_data" target="_blank">
-                        <input type="submit" value="Show Image" />
-                    </form>
+                     <form method="post" enctype="multipart/form-data">
+                      {{ form.hidden_tag() }}
 
-                <img src="{{ user_image }}" alt="Italian Trulli" width="500" height="400">
+                      {% for error in form.photo.errors %}
+                        <span style="color: red;">{{ error }}</span>
+                      {% endfor %}
+
+                      <div class="row justify-content-center">
+                        <div class="col-auto">
+                          {{ form.photo(class="form-control")}}
+                        </div>
+                        <div class="col-auto">
+                          {{ form.submit(class="btn btn-success") }}
+                        </div>
+                     </form>
+
+                     {% if file_url %}
+
+                      <div class="mt-5">
+                        <img src="{{ file_url }}" alt="User Image" style="width: 400px, height 500px;">
+                      </div>
+                      {% endif %}
+
+                
             </div>
+          </div>
             <div class="col-lg-6" style="border:1px black solid;">
                 Container Right
                 <img src="https://www.w3schools.com/w3images/fjords.jpg" class="img-fluid" alt="Responsive image">
