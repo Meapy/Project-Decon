@@ -66,7 +66,8 @@ class imageProcessing():
         n_boxes = len(d['level'])
         for i in range(n_boxes):
             if d['text'][i] != "":
-                (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
+                (x, y, w, h) = (d['left'][i], d['top']
+                                [i], d['width'][i], d['height'][i])
                 wList = list([x, y, w, h])
                 with open('data/words-boxs.csv', 'a', newline='') as f_object:
                     # Pass File object to Writer object
@@ -77,7 +78,7 @@ class imageProcessing():
                     f_object.close()
                 del wList[:]
 
-    def matchWords(self, words,temp,main):
+    def matchWords(self, words, temp, main):
         # Match the words with the words in the csv file
         indexList = []
         with open('data/words-matched.csv', 'w') as outFile:
@@ -86,7 +87,8 @@ class imageProcessing():
                     outFile.write(line)
                     line = line.replace("\n", "")
                     index = words.index(line)
-                    words[index] = words[index].replace(line, line + ' ')  # needed for duplicates
+                    words[index] = words[index].replace(
+                        line, line + ' ')  # needed for duplicates
                     indexList.append(index)
         print(indexList)
         return indexList
@@ -96,14 +98,16 @@ class imageProcessing():
             read = list(csv.reader(f))
             for i, value in enumerate(read):
                 if i in indexList:
-                    (x, y, w, h) = (int(value[0]), int(value[1]), int(value[2]), int(value[3]))
+                    (x, y, w, h) = (int(value[0]), int(
+                        value[1]), int(value[2]), int(value[3]))
                     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 0), -1)
                     print(i, value)
         cv2.imwrite("static/images/output.png", img)
         return "output.png"
 
-
     def run(self, img):
+        # start timer for performance
+        start = cv2.getTickCount()
         self.removeFiles()
         img = cv2.imread(img)
         tempImg = self.setup_image(img)
@@ -111,14 +115,18 @@ class imageProcessing():
         self.createCSV(words)
         self.boundBoxesCSV(d)
         with open('data/bad.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
-            # Main = Bad Words Dataset
-            # Temp = Dataset created from inputted image
-            main = csv1.readlines()
-            temp = csv2.readlines()
-        matchedWords = self.matchWords(words,temp,main)
+            main = csv1.readlines() # Bad Words Dataset
+            temp = csv2.readlines() # Dataset created from inputted image
+        matchedWords = self.matchWords(words, temp, main)
         print(matchedWords)
         image = self.drawBoxes(img, matchedWords)
+        # end timer for performance
+        end = cv2.getTickCount()
+        time = (end - start) / cv2.getTickFrequency()
+        print("Time: " + str(time))
+
         return image
+
 
 if __name__ == "__main__":
     img = "data/letter.png"
