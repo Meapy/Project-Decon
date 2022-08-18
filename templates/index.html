@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
   <title>Decon</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,7 +36,6 @@
     <div class="container-fluid">
         <h5 class="text-center">--center--</h5>
     </div>
-    <img src="/static/images/{{ user_image }}" alt="User Image">
       <div class="container-fluid" style="border:1px black solid;">
         <div class="row">
             <div class="col-lg-6" style="border:1px black solid; padding:10%;">
@@ -58,18 +56,47 @@
                      </form>
 
                      {% if file_url %}
-
-                      <div class="mt-5">
-                        <img src="{{ file_url }}" alt="User Image" style="width: 400px, height 500px;">
+                    </br>
+                      <div class="mt-5" style="width:100px; height:100px;">
+                        <img src="{{ file_url }}" alt="User Image" style="width: 400px; height: 400px;">
                       </div>
+                      <div> </div>
                       {% endif %}
 
                 
             </div>
           </div>
             <div class="col-lg-6" style="border:1px black solid;">
-                Container Right
-                <img src="https://www.w3schools.com/w3images/fjords.jpg" class="img-fluid" alt="Responsive image">
+                <form method="post" enctype="multipart/form-data">
+                    <h1>Decon Settings</h1>
+                    <h4>Select what options you want. Help us, help you get the image that you want.</h4>
+                    <hr>
+                    
+                    <p class="question"> What is the images text color?</p>
+                    <div class="question-answer">
+                      <lable><input type="radio" value = none" name="color" />Black</lable>
+                      <lable><input type="radio" value = none" name="color" />White</lable>
+                    </div>
+                    <hr>
+
+                    <p class="question"> What type of Decon do you want?</p>
+                    <div class="question-answer">
+                      <lable><input type="radio" value = none" name="type" />Specific Words Removal</lable>
+                      <lable><input type="radio" value = none" name="type" />Hate Speech Removal</lable>
+                    </div>
+                    <hr>
+
+                    <p class="question"> What words do you want to have removed?</p>
+                    <div class="question-answer">
+                      <textarea name="wordstoremove" rows="5"></textarea>
+                    </div>
+                    <hr>
+
+                    <div class="buttonsubmit">
+                      <button type=""submit" href="/">Submit</button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
