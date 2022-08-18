@@ -8,7 +8,6 @@ from wtforms import SubmitField
 app = Flask(__name__)
 
 UPLOAD_FOLDER = os.path.join('static', 'uploads')
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['UPLOADED_PHOTOS_DEST'] = UPLOAD_FOLDER
 
@@ -16,7 +15,6 @@ photos = UploadSet('photos', IMAGES) # Images = set of extensions of image files
 configure_uploads(app, photos)
 
 app.secret_key = 'This is your secret key to utilize session in Flask'
-
 
 class UploadForm(FlaskForm):
     photo = FileField(
@@ -35,15 +33,14 @@ def get_file(filename):
 
 @app.route('/',  methods=("POST", "GET"))
 def uploadFile():
-    # if request.method == 'POST':
-        form = UploadForm()
-        if form.validate_on_submit():
-            filename = photos.save(form.photo.data)
-            file_url = url_for('get_file', filename=filename)
-        else:
-            file_url = None
+    form = UploadForm()
+    if form.validate_on_submit():
+        filename = photos.save(form.photo.data)
+        file_url = url_for('get_file', filename=filename)
+    else:
+        file_url = None
 
-        return render_template('index.html', form=form, file_url=file_url)
+    return render_template('index.html', form=form, file_url=file_url)
 
 
 if __name__ == "__main__":
