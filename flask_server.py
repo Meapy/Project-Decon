@@ -56,7 +56,7 @@ def settings():
         imageProc = imageProcessing(image)
         imageProc.run(image)
     
-        return render_template('index.html', form=form, file_url='static/images/output.png')
+        return render_template('image.html', form=form, file_url='static/images/output.png')
     else:
         return render_template('index.html', form=form, file_url=None)
     
