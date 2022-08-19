@@ -43,6 +43,13 @@ def uploadFile():
 
     return render_template('index.html', form=form, file_url=file_url)
 
+@app.route('/settings',  methods=("POST", "GET"))
+def settings():
+    print(request.form)
+    form = UploadForm()
+    file_url = None
+    return render_template('index.html', form=form, file_url=file_url)
+
 
 if __name__ == "__main__":
     app.run(port=3000, debug=True)
