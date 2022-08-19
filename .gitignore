@@ -207,3 +207,6 @@ typings/
 
 # static/uploads folder
 static/uploads
+
+# data folder
+data/
