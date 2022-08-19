@@ -81,12 +81,13 @@
 
                     <p class="question"> What type of Decon do you want?</p>
                     <div class="question-answer">
-                      <label><input type="radio" value = "specific" name="type" />Specific Words Removal</label>
+                      <label><input type="radio" value = "specific" name="type" required/>Specific Words Removal</label>
                       <label><input type="radio" value = "hate" name="type" />Hate Speech Removal</label>
+                      <label><input type="radio" value = "custom" name="type" />Custom Word Removal</label>
                     </div>
                     <hr>
 
-                    <p class="question"> What words do you want to have removed?</p>
+                    <p class="question"> If chosen custom, What words do you want to have removed?</p>
                     <div class="question-answer">
                       <textarea name="wordstoremove" rows="5"></textarea>
                     </div>
@@ -97,7 +98,6 @@
                         <button type="submit" value="Submit">Submit</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
