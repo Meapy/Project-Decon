@@ -5,6 +5,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import SubmitField
 from PIL import Image
+from imageProcessing import imageProcessing
 
 app = Flask(__name__)
 
@@ -47,8 +48,18 @@ def uploadFile():
 def settings():
     print(request.form)
     form = UploadForm()
-    file_url = None
-    return render_template('index.html', form=form, file_url=file_url)
+    #print(form.data)
+    file_url = request.form['image']
+    print(file_url)
+    if file_url:
+        image = 'static' + str(file_url)
+        imageProc = imageProcessing(image)
+        imageProc.run(image)
+    
+        return render_template('index.html', form=form, file_url='static/images/output.png')
+    else:
+        return render_template('index.html', form=form, file_url=None)
+    
 
 
 if __name__ == "__main__":

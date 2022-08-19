@@ -204,3 +204,6 @@ typings/
 
 # FuseBox cache
 .fusebox/
+
+# static/uploads folder
+static/uploads
