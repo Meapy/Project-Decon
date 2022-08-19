@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_from_directory, url_for
+from flask import Flask, render_template, request, send_from_directory, url_for, redirect
 import os
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 from flask_wtf import FlaskForm
@@ -50,8 +50,8 @@ def settings():
     form = UploadForm()
     #print(form.data)
     file_url = request.form['image']
-    print(file_url)
-    if file_url:
+    print(type(file_url))
+    if file_url != "None":
         image = 'static' + str(file_url)
         imageProc = imageProcessing(image)
         imageProc.run(image)
@@ -59,7 +59,9 @@ def settings():
     
         return render_template('image.html', form=form, file_url='static/images/output.png')
     else:
-        return render_template('index.html', form=form, file_url=None)
+        #route to '/'
+        return redirect("/")
+
     
 
 
