@@ -110,7 +110,6 @@ class imageProcessing():
         start = cv2.getTickCount()
         self.removeFiles()
         img = cv2.imread(img)
-        print(img)
         tempImg = self.setup_image(img)
         words, d = self.getWords(tempImg)
         self.createCSV(words)
