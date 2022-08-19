@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
 </head>
 <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -101,76 +102,4 @@
     </div>
 
 </body>
-
-  <style>
-    body, div, form, input, p { 
-      padding: 0;
-      margin: 0;
-      outline: none;
-      font-family: Roboto, Arial, sans-serif;
-      font-size: 14px;
-      color: #666;
-      line-height: 22px;
-    }
-    h1 {
-        font-weight: 400;
-    }
-    form {
-        width: 100%;
-        padding: 20px;
-        background: #fff;
-        box-shadow: 0 2px 5px #ccc; 
-    }
-    input {
-        width: calc(50% - 10px);
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        vertical-align: top;
-        }
-    input:hover, textarea:hover {
-        outline: none;
-        border: 1px solid #000000;
-    }
-    textarea:hover {
-        outline: none;
-        border: 1px solid #5cb85c;
-        }
-    textarea {
-        width: calc(100% - 6px);
-        overflow-y: scroll;
-    }
-    .question {
-        padding: 15px 0 5px;
-        color: #000000;
-        font-size: 20px;
-        padding-bottom: 20px;
-    }
-    .question-answer label {
-        display: block;
-
-    }
-    .question-answer input {
-      width: 30px;
-    }
-    .btn-block {
-      margin-top: 20px;
-      text-align: center;
-    }
-    button {
-      width: 150px;
-      padding: 10px;
-      border: none;
-      -webkit-border-radius: 5px; 
-      -moz-border-radius: 5px; 
-      border-radius: 5px; 
-      background-color: #5cb85c;
-      font-size: 16px;
-      color: #fff;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #5cb85c;
-    }
-  </style>
 </html>
