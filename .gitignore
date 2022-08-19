@@ -210,3 +210,6 @@ static/uploads
 
 # data folder
 data/
+
+#env folder
+project-decon/
