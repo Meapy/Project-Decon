@@ -55,6 +55,7 @@ def settings():
         image = 'static' + str(file_url)
         imageProc = imageProcessing(image)
         imageProc.run(image)
+        os.remove(image)
     
         return render_template('image.html', form=form, file_url='static/images/output.png')
     else:
