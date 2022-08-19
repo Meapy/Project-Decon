@@ -115,8 +115,8 @@ class imageProcessing():
         self.createCSV(words)
         self.boundBoxesCSV(d)
         with open('data/bad.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
-            main = csv1.readlines() # Bad Words Dataset
-            temp = csv2.readlines() # Dataset created from inputted image
+            main = csv1.readlines()  # Bad Words Dataset
+            temp = csv2.readlines()  # Dataset created from inputted image
         matchedWords = self.matchWords(words, temp, main)
         print(matchedWords)
         image = self.drawBoxes(img, matchedWords)

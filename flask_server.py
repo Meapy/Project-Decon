@@ -13,10 +13,12 @@ UPLOAD_FOLDER = os.path.join('static', 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['UPLOADED_PHOTOS_DEST'] = UPLOAD_FOLDER
 
-photos = UploadSet('photos', IMAGES) # Images = set of extensions of image files
+# Images = set of extensions of image files
+photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
 
 app.secret_key = 'This is your secret key to utilize session in Flask'
+
 
 class UploadForm(FlaskForm):
     photo = FileField(
@@ -44,11 +46,12 @@ def uploadFile():
 
     return render_template('index.html', form=form, file_url=file_url)
 
+
 @app.route('/settings',  methods=("POST", "GET"))
 def settings():
     print(request.form)
     form = UploadForm()
-    #print(form.data)
+    # print(form.data)
     file_url = request.form['image']
     print(type(file_url))
     if file_url != "None":
@@ -56,13 +59,11 @@ def settings():
         imageProc = imageProcessing(image)
         imageProc.run(image)
         os.remove(image)
-    
+
         return render_template('image.html', form=form, file_url='static/images/output.png')
     else:
-        #route to '/'
+        # route to '/'
         return redirect("/")
-
-    
 
 
 if __name__ == "__main__":
