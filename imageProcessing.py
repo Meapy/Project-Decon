@@ -16,8 +16,7 @@ class imageProcessing():
         self.file = file
         self.color = color
         self.decontype = decontype
-        self.wordstoremove = wordstoremove
-        
+        self.wordstoremove = wordstoremove  
         pass
     
     def custom_csv(self, wordstoremove, decontype):
@@ -67,18 +66,17 @@ class imageProcessing():
         if os.path.exists("data/words-boxs.csv"):
             os.remove('data/words-boxs.csv')
 
-    def createCSV(self, words):
+    def createCSV(self, words,wordstoremove):
         # Creating words-text.csv ( Contains all words that are found)
         k = 0
         for j in words:
             tempList = list([words[k]])
-            temptList = tempList
             k = k + 1
             with open('data/words-text.csv', 'a', newline='') as f_object:
                 # Pass File object to Writer object
                 writer_object = writer(f_object)
                 # Append list as last row in the csv file
-                writer_object.writerow(temptList)
+                writer_object.writerow(tempList)
                 # Close the file object
                 f_object.close()
 
@@ -111,7 +109,6 @@ class imageProcessing():
                     words[index] = words[index].replace(
                         line, line + ' ')  # needed for duplicates
                     indexList.append(index)
-        print(indexList)
         return indexList
 
     def drawBoxes(self, img, indexList):
@@ -122,7 +119,6 @@ class imageProcessing():
                     (x, y, w, h) = (int(value[0]), int(
                         value[1]), int(value[2]), int(value[3]))
                     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 0), -1)
-                    print(i, value)
         cv2.imwrite("static/images/output.png", img)
         return "output.png"
 
@@ -134,7 +130,7 @@ class imageProcessing():
         self.custom_csv(wordstoremove, decontype)
         tempImg = self.setup_image(img)
         words, d = self.getWords(tempImg)
-        self.createCSV(words)
+        self.createCSV(words,wordstoremove)
         self.boundBoxesCSV(d) 
         if os.path.exists("data/custom-words.csv"):
             with open('data/custom-words.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
@@ -145,7 +141,6 @@ class imageProcessing():
                 main = csv1.readlines()  # Bad Words Dataset
                 temp = csv2.readlines()  # Dataset created from inputted image
         matchedWords = self.matchWords(words, temp, main)
-        print(matchedWords)
         image = self.drawBoxes(img, matchedWords)
         # end timer for performance
         end = cv2.getTickCount()
@@ -156,7 +151,10 @@ class imageProcessing():
 
 
 if __name__ == "__main__":
-    # img = "data/letter.png"
-    # imageProc = imageProcessing(img)
-    # imageProc.run(img)
+    img = "data/letter.png"
+    color = "white"
+    wordstoremove = "we are"
+    decontype = "custom"
+    imageProc = imageProcessing(img, color, wordstoremove, decontype)
+    imageProc.run(img, wordstoremove, decontype)
     pass
