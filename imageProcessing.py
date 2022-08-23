@@ -16,7 +16,7 @@ class imageProcessing():
         self.color = color
         self.decontype = decontype
         self.wordstoremove = wordstoremove
-        self.custom_csv(wordstoremove, decontype)
+        
         pass
     
     def custom_csv(self, wordstoremove, decontype):
@@ -122,15 +122,16 @@ class imageProcessing():
         cv2.imwrite("static/images/output.png", img)
         return "output.png"
 
-    def run(self, img):
+    def run(self, img, wordstoremove, decontype):
         # start timer for performance
         start = cv2.getTickCount()
         self.removeFiles()
         img = cv2.imread(img)
+        self.custom_csv(wordstoremove, decontype)
         tempImg = self.setup_image(img)
         words, d = self.getWords(tempImg)
         self.createCSV(words)
-        self.boundBoxesCSV(d)
+        self.boundBoxesCSV(d) 
         if os.path.exists("data/custom-words.csv"):
             with open('data/custom-words.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
                 main = csv1.readlines()  # Custom Words Dataset
@@ -151,6 +152,7 @@ class imageProcessing():
 
 
 if __name__ == "__main__":
-    img = "data/letter.png"
-    imageProc = imageProcessing(img)
-    imageProc.run(img)
+    # img = "data/letter.png"
+    # imageProc = imageProcessing(img)
+    # imageProc.run(img)
+    pass
