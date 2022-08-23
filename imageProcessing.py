@@ -9,6 +9,7 @@ from csv import writer
 import os
 
 class imageProcessing():
+    
 
     def __init__(self, file, color, decontype, wordstoremove) -> None:
         pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
@@ -20,8 +21,8 @@ class imageProcessing():
         pass
     
     def custom_csv(self, wordstoremove, decontype):
-        if os.path.exists("data/custom-words.csv"):
-            os.remove("data/custom-words.csv")
+        # if os.path.exists("data/custom-words.csv"):
+        #     os.remove("data/custom-words.csv")
 
         if decontype == 'custom' and len(wordstoremove) > 0:
             wordstoremove = wordstoremove.replace('.', ',').replace('/r/', ',').replace(', ', ',').replace(" ", ',')
@@ -29,9 +30,11 @@ class imageProcessing():
             print(wordstoremove)
             listwords = list(wordstoremove)
 
-            with open('data/custom-words.csv', 'w') as f_object:
+            with open('data/custom-words.csv', 'w+') as f_object:
                 for word in listwords:
                     f_object.write(word + '\n')
+                f_object.close()
+    
 
     def setup_image(self, img):
         # convert the image to gray scale

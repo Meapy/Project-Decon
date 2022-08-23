@@ -58,8 +58,8 @@ def settings():
     print(type(file_url))
     if file_url != "None":
         image = 'static' + str(file_url)
-        imageProc = imageProcessing(image, color, decontype, wordstoremove)
-        imageProc.run(image, decontype, wordstoremove)
+        imageProc = imageProcessing(image, color, wordstoremove, decontype)
+        imageProc.run(image, wordstoremove, decontype)
         os.remove(image)
 
         return render_template('image.html', form=form, file_url='static/images/output.png')
