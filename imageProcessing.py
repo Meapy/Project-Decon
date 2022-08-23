@@ -7,7 +7,6 @@ import csv
 import random
 from csv import writer
 import os
-import pandas
 
 
 class imageProcessing():
