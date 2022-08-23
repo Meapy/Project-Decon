@@ -7,14 +7,35 @@ import csv
 import random
 from csv import writer
 import os
+import pandas
 
 
 class imageProcessing():
 
-    def __init__(self, file) -> None:
+    def __init__(self, file, color, decontype, wordstoremove) -> None:
         pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
         self.file = file
+        self.color = color
+        self.decontype = decontype
+        self.wordstoremove = wordstoremove
+        # print(color, decontype, wordstoremove)
+        if decontype == 'custom' and len(wordstoremove) > 0:
+            print("custom input detected, will proceed with the users words")
+            self.custom_csv(wordstoremove)
         pass
+    
+    def custom_csv(self, wordstoremove):
+        if os.path.exists("data/custom-words.csv"):
+            os.remove("data/custom-words.csv")
+        
+        wordstoremove = wordstoremove.replace('.', ',').replace('/r/', ',').replace(', ', ',').replace(" ", ',')
+        wordstoremove = wordstoremove.split(',')
+        print(wordstoremove)
+        listwords = list(wordstoremove)
+
+        with open('data/custom-words.csv', 'w') as f_object:
+            for word in listwords:
+                f_object.write(word + '\n')
 
     def setup_image(self, img):
         # convert the image to gray scale

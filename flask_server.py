@@ -51,12 +51,14 @@ def uploadFile():
 def settings():
     print(request.form)
     form = UploadForm()
-    # print(form.data)
+    color = request.form['color']
+    decontype = request.form['decontype']
+    wordstoremove = request.form['wordstoremove']
     file_url = request.form['image']
     print(type(file_url))
     if file_url != "None":
         image = 'static' + str(file_url)
-        imageProc = imageProcessing(image)
+        imageProc = imageProcessing(image, color, decontype, wordstoremove)
         imageProc.run(image)
         os.remove(image)
 
