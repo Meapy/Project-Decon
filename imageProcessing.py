@@ -21,17 +21,18 @@ class imageProcessing():
         pass
     
     def custom_csv(self, wordstoremove, decontype):
-        # if os.path.exists("data/custom-words.csv"):
-        #     os.remove("data/custom-words.csv")
+        if os.path.exists("data/custom-words.csv"):
+            os.remove("data/custom-words.csv")
 
         if decontype == 'custom' and len(wordstoremove) > 0:
-            wordstoremove = wordstoremove.replace('.', ',').replace('/r/', ',').replace(', ', ',').replace(" ", ',')
+            wordstoremove = wordstoremove.replace('.', ',').replace('/r/', ',').replace(', ', ',')
             wordstoremove = wordstoremove.split(',')
             print(wordstoremove)
             listwords = list(wordstoremove)
 
             with open('data/custom-words.csv', 'w+') as f_object:
                 for word in listwords:
+                    word = word.lower()
                     f_object.write(word + '\n')
                 f_object.close()
     
