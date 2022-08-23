@@ -8,7 +8,6 @@ import random
 from csv import writer
 import os
 
-
 class imageProcessing():
 
     def __init__(self, file, color, decontype, wordstoremove) -> None:
@@ -17,24 +16,22 @@ class imageProcessing():
         self.color = color
         self.decontype = decontype
         self.wordstoremove = wordstoremove
-        # print(color, decontype, wordstoremove)
-        if decontype == 'custom' and len(wordstoremove) > 0:
-            print("custom input detected, will proceed with the users words")
-            self.custom_csv(wordstoremove)
+        self.custom_csv(wordstoremove, decontype)
         pass
     
-    def custom_csv(self, wordstoremove):
+    def custom_csv(self, wordstoremove, decontype):
         if os.path.exists("data/custom-words.csv"):
             os.remove("data/custom-words.csv")
-        
-        wordstoremove = wordstoremove.replace('.', ',').replace('/r/', ',').replace(', ', ',').replace(" ", ',')
-        wordstoremove = wordstoremove.split(',')
-        print(wordstoremove)
-        listwords = list(wordstoremove)
 
-        with open('data/custom-words.csv', 'w') as f_object:
-            for word in listwords:
-                f_object.write(word + '\n')
+        if decontype == 'custom' and len(wordstoremove) > 0:
+            wordstoremove = wordstoremove.replace('.', ',').replace('/r/', ',').replace(', ', ',').replace(" ", ',')
+            wordstoremove = wordstoremove.split(',')
+            print(wordstoremove)
+            listwords = list(wordstoremove)
+
+            with open('data/custom-words.csv', 'w') as f_object:
+                for word in listwords:
+                    f_object.write(word + '\n')
 
     def setup_image(self, img):
         # convert the image to gray scale
@@ -134,9 +131,14 @@ class imageProcessing():
         words, d = self.getWords(tempImg)
         self.createCSV(words)
         self.boundBoxesCSV(d)
-        with open('data/bad.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
-            main = csv1.readlines()  # Bad Words Dataset
-            temp = csv2.readlines()  # Dataset created from inputted image
+        if os.path.exists("data/custom-words.csv"):
+            with open('data/custom-words.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
+                main = csv1.readlines()  # Custom Words Dataset
+                temp = csv2.readlines()  # Dataset created from inputted image
+        else:
+            with open('data/bad.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
+                main = csv1.readlines()  # Bad Words Dataset
+                temp = csv2.readlines()  # Dataset created from inputted image
         matchedWords = self.matchWords(words, temp, main)
         print(matchedWords)
         image = self.drawBoxes(img, matchedWords)
