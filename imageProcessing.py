@@ -26,8 +26,12 @@ class imageProcessing():
         if decontype == 'custom' and len(wordstoremove) > 0:
             wordstoremove = wordstoremove.replace('.', ',').replace('/r/', ',').replace(', ', ',')
             wordstoremove = wordstoremove.split(',')
-            print(wordstoremove)
             listwords = list(wordstoremove)
+            sentencewords = []
+            for i in listwords:
+                if ' ' in i:
+                    sentencewords.append(i)
+                    listwords.remove(i)
 
             with open('data/custom-words.csv', 'w+') as f_object:
                 for word in listwords:
@@ -66,7 +70,7 @@ class imageProcessing():
         if os.path.exists("data/words-boxs.csv"):
             os.remove('data/words-boxs.csv')
 
-    def createCSV(self, words,wordstoremove):
+    def createCSV(self, words, wordstoremove):
         # Creating words-text.csv ( Contains all words that are found)
         k = 0
         for j in words:
@@ -153,7 +157,7 @@ class imageProcessing():
 if __name__ == "__main__":
     img = "data/letter.png"
     color = "white"
-    wordstoremove = "we are"
+    wordstoremove = "we are, our, work"
     decontype = "custom"
     imageProc = imageProcessing(img, color, wordstoremove, decontype)
     imageProc.run(img, wordstoremove, decontype)
