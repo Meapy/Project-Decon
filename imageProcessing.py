@@ -1,3 +1,5 @@
+from operator import index
+from posixpath import split
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -38,6 +40,8 @@ class imageProcessing():
                     word = word.lower()
                     f_object.write(word + '\n')
                 f_object.close()
+
+        return sentencewords
     
 
     def setup_image(self, img):
@@ -70,8 +74,8 @@ class imageProcessing():
         if os.path.exists("data/words-boxs.csv"):
             os.remove('data/words-boxs.csv')
 
-    def createCSV(self, words, wordstoremove):
-        # Creating words-text.csv ( Contains all words that are found)
+    def createCSV(self, words):
+        # Creating words-text.csv ( Contains all words that are found )
         k = 0
         for j in words:
             tempList = list([words[k]])
@@ -85,7 +89,7 @@ class imageProcessing():
                 f_object.close()
 
     def boundBoxesCSV(self, d):
-        # Creating words-boxs.csv ( Contains all bound boxes that are found)
+        # Creating words-boxs.csv ( Contains all bound boxes that are found )
         n_boxes = len(d['level'])
         for i in range(n_boxes):
             if d['text'][i] != "":
@@ -101,7 +105,7 @@ class imageProcessing():
                     f_object.close()
                 del wList[:]
 
-    def matchWords(self, words, temp, main):
+    def matchWords(self, words, temp, main, sentenceindex):
         # Match the words with the words in the csv file
         indexList = []
         with open('data/words-matched.csv', 'w') as outFile:
@@ -113,6 +117,9 @@ class imageProcessing():
                     words[index] = words[index].replace(
                         line, line + ' ')  # needed for duplicates
                     indexList.append(index)
+        indexList.extend(sentenceindex)
+        print(indexList)
+        list(set(indexList))
         return indexList
 
     def drawBoxes(self, img, indexList):
@@ -126,15 +133,55 @@ class imageProcessing():
         cv2.imwrite("static/images/output.png", img)
         return "output.png"
 
+    def drawSentenceBoxes(self, sentencewords):
+        # get position of sentence words from words-text.csv
+        # return sentenceindexlist 
+        # append to indexList in matchWords
+        print(sentencewords)
+        with open('data/words-text.csv', 'r') as f:
+            read = list(csv.reader(f))
+            indexes = []
+            for s in sentencewords:
+                splitsentence = s.split(' ')
+                print(splitsentence)
+
+                for i, value in enumerate(read):
+                    # i = index, value = text
+                    # print(i, value)
+                    if value[0] == splitsentence[0]:
+                        # print(i, splitsentence[0], splitsentence[1])
+                        # print(read[i][0], read[i+1][0])
+                        for k in range(len(splitsentence)):
+                            if read[i+k][0] == splitsentence[k]:
+                                indexes.append(str(i+k))
+                                #  i+k = index, read[i+k][0] = value
+                                # print(i+k, read[i+k][0])
+
+            # for i in indexes:
+            #     print(i+1)
+                # if (int(i) + 1) - (int(i)) == 1:
+                #     print(i)
+            indexes = [int(x) for x in indexes] # make the list: int and not str
+            print(indexes)
+            sentenceindex = []
+            for i in range(len(indexes)-1):
+                if indexes[i]+1 == indexes[i+1]:
+                    sentenceindex.append(indexes[i])
+                    sentenceindex.append(indexes[i+1])
+            print(sentenceindex)
+        return sentenceindex
+
+
     def run(self, img, wordstoremove, decontype):
         # start timer for performance
         start = cv2.getTickCount()
         self.removeFiles()
         img = cv2.imread(img)
-        self.custom_csv(wordstoremove, decontype)
+        sentencewords = self.custom_csv(wordstoremove, decontype)
         tempImg = self.setup_image(img)
         words, d = self.getWords(tempImg)
-        self.createCSV(words,wordstoremove)
+        self.createCSV(words)
+        sentenceindex = self.drawSentenceBoxes(sentencewords)
         self.boundBoxesCSV(d) 
         if os.path.exists("data/custom-words.csv"):
             with open('data/custom-words.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
@@ -144,7 +191,7 @@ class imageProcessing():
             with open('data/bad.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
                 main = csv1.readlines()  # Bad Words Dataset
                 temp = csv2.readlines()  # Dataset created from inputted image
-        matchedWords = self.matchWords(words, temp, main)
+        matchedWords = self.matchWords(words, temp, main, sentenceindex)
         image = self.drawBoxes(img, matchedWords)
         # end timer for performance
         end = cv2.getTickCount()
@@ -157,7 +204,7 @@ class imageProcessing():
 if __name__ == "__main__":
     img = "data/letter.png"
     color = "white"
-    wordstoremove = "we are, our, work"
+    wordstoremove = "sexual harassment, we are"
     decontype = "custom"
     imageProc = imageProcessing(img, color, wordstoremove, decontype)
     imageProc.run(img, wordstoremove, decontype)
