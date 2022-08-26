@@ -33,7 +33,6 @@ class imageProcessing():
             for i in listwords:
                 if ' ' in i:
                     sentencewords.append(i.lower())
-                    # listwords.remove(i)
 
             with open('data/custom-words.csv', 'w+') as f_object:
                 for word in listwords:
@@ -134,46 +133,29 @@ class imageProcessing():
         return "output.png"
 
     def drawSentenceBoxes(self, sentencewords):
-        # get position of sentence words from words-text.csv
-        # return sentenceindexlist 
-        # append to indexList in matchWords
-        print(sentencewords)
         with open('data/words-text.csv', 'r') as f:
             read = list(csv.reader(f))
             indexes = []
             for s in sentencewords:
                 splitsentence = s.split(' ')
-                print(splitsentence)
 
                 for i, value in enumerate(read):
-                    # i = index, value = text
-                    # print(i, value)
                     if value[0] == splitsentence[0]:
-                        # print(i, splitsentence[0], splitsentence[1])
-                        # print(read[i][0], read[i+1][0])
                         for k in range(len(splitsentence)):
                             if read[i+k][0] == splitsentence[k]:
                                 indexes.append(str(i+k))
-                                #  i+k = index, read[i+k][0] = value
-                                # print(i+k, read[i+k][0])
 
-            # for i in indexes:
-            #     print(i+1)
-                # if (int(i) + 1) - (int(i)) == 1:
-                #     print(i)
-            indexes = [int(x) for x in indexes] # make the list: int and not str
-            print(indexes)
+            indexes = [int(x) for x in indexes]
             sentenceindex = []
             for i in range(len(indexes)-1):
                 if indexes[i]+1 == indexes[i+1]:
                     sentenceindex.append(indexes[i])
                     sentenceindex.append(indexes[i+1])
-        print(sentenceindex)
+        
         return sentenceindex
 
 
     def run(self, img, wordstoremove, decontype):
-        # start timer for performance
         start = cv2.getTickCount()
         self.removeFiles()
         img = cv2.imread(img)
@@ -193,7 +175,6 @@ class imageProcessing():
                 temp = csv2.readlines()  # Dataset created from inputted image
         matchedWords = self.matchWords(words, temp, main, sentenceindex)
         image = self.drawBoxes(img, matchedWords)
-        # end timer for performance
         end = cv2.getTickCount()
         time = (end - start) / cv2.getTickFrequency()
         print("Time: " + str(time))
