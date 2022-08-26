@@ -32,8 +32,8 @@ class imageProcessing():
             sentencewords = []
             for i in listwords:
                 if ' ' in i:
-                    sentencewords.append(i)
-                    listwords.remove(i)
+                    sentencewords.append(i.lower())
+                    # listwords.remove(i)
 
             with open('data/custom-words.csv', 'w+') as f_object:
                 for word in listwords:
@@ -168,7 +168,7 @@ class imageProcessing():
                 if indexes[i]+1 == indexes[i+1]:
                     sentenceindex.append(indexes[i])
                     sentenceindex.append(indexes[i+1])
-            print(sentenceindex)
+        print(sentenceindex)
         return sentenceindex
 
 
