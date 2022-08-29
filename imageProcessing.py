@@ -16,6 +16,7 @@ class imageProcessing():
     def __init__(self, file, color, decontype, wordstoremove) -> None:
         pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
         self.file = file
+        print("FILEFILE: ", file)
         self.color = color
         self.decontype = decontype
         self.wordstoremove = wordstoremove  
@@ -24,7 +25,7 @@ class imageProcessing():
     def custom_csv(self, wordstoremove, decontype):
         if os.path.exists("data/custom-words.csv"):
             os.remove("data/custom-words.csv")
-
+        sentencewords = 'ignorrr'
         if decontype == 'custom' and len(wordstoremove) > 0:
             wordstoremove = wordstoremove.replace('.', ',').replace('/r/', ',').replace(', ', ',')
             wordstoremove = wordstoremove.split(',')
@@ -80,11 +81,8 @@ class imageProcessing():
             tempList = list([words[k]])
             k = k + 1
             with open('data/words-text.csv', 'a', newline='') as f_object:
-                # Pass File object to Writer object
                 writer_object = writer(f_object)
-                # Append list as last row in the csv file
                 writer_object.writerow(tempList)
-                # Close the file object
                 f_object.close()
 
     def boundBoxesCSV(self, d):
@@ -96,11 +94,8 @@ class imageProcessing():
                                 [i], d['width'][i], d['height'][i])
                 wList = list([x, y, w, h])
                 with open('data/words-boxs.csv', 'a', newline='') as f_object:
-                    # Pass File object to Writer object
                     writer_object = writer(f_object)
-                    # Append the List to next csv row
                     writer_object.writerow(wList)
-                    # Close the csv
                     f_object.close()
                 del wList[:]
 
@@ -163,7 +158,9 @@ class imageProcessing():
         tempImg = self.setup_image(img)
         words, d = self.getWords(tempImg)
         self.createCSV(words)
-        sentenceindex = self.drawSentenceBoxes(sentencewords)
+        sentenceindex = []
+        if sentencewords != 'ignorr':
+            sentenceindex = self.drawSentenceBoxes(sentencewords)
         self.boundBoxesCSV(d) 
         if os.path.exists("data/custom-words.csv"):
             with open('data/custom-words.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:

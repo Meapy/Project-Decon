@@ -14,7 +14,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['UPLOADED_PHOTOS_DEST'] = UPLOAD_FOLDER
 
 # Images = set of extensions of image files
-photos = UploadSet('photos', IMAGES)
+photos = UploadSet('photos', extensions=('png', 'pdf'))
 configure_uploads(app, photos)
 
 app.secret_key = 'This is your secret key to utilize session in Flask'
@@ -41,6 +41,7 @@ def uploadFile():
     if form.validate_on_submit():
         filename = photos.save(form.photo.data)
         file_url = url_for('get_file', filename=filename)
+        print(file_url)
     else:
         file_url = None
 
@@ -54,6 +55,8 @@ def settings():
     color = request.form['color']
     decontype = request.form['decontype']
     wordstoremove = request.form['wordstoremove']
+    if wordstoremove == '':
+        wordstoremove == 'ignore'
     file_url = request.form['image']
     print(type(file_url))
     if file_url != "None":
