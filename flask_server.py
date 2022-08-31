@@ -14,7 +14,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['UPLOADED_PHOTOS_DEST'] = UPLOAD_FOLDER
 
 # Images = set of extensions of image files
-photos = UploadSet('photos', extensions=('png', 'pdf'))
+photos = UploadSet('photos', extensions=('png', 'jpg', 'JPEG', 'pdf'))
 configure_uploads(app, photos)
 
 app.secret_key = 'This is your secret key to utilize session in Flask'

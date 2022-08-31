@@ -9,6 +9,7 @@ import csv
 import random
 from csv import writer
 import os
+import fitz
 
 class imageProcessing():
     
@@ -44,7 +45,13 @@ class imageProcessing():
         return sentencewords
     
     def pdftoimage(self, img):
-        print('pdftoimage!!!!')
+        doc = fitz.open(img)
+        for page in doc:
+            print("page")
+            pix = page.get_pixmap()
+            pix.save("static/pdftoimg/page-%i.png" % page.number)
+        
+        img = 'data/page-0.png'
         return img
 
     def setup_image(self, img):
@@ -157,7 +164,8 @@ class imageProcessing():
         self.removeFiles()
         if 'pdf' in img:
             img = self.pdftoimage(img)
-        img = cv2.imread(img)
+        if 'pdf' not in img:
+            img = cv2.imread(img)
         sentencewords = self.custom_csv(wordstoremove, decontype)
         tempImg = self.setup_image(img)
         words, d = self.getWords(tempImg)
