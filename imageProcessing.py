@@ -13,6 +13,7 @@ import fitz
 import img2pdf
 from fpdf import FPDF
 import glob
+import shutil
 
 class imageProcessing():
     
@@ -47,7 +48,7 @@ class imageProcessing():
 
         return sentencewords
     
-    def pdftoimage(self, img):
+    def pdftoimage(self, img, wordstoremove, decontype):
         doc = fitz.open(img)
         for page in doc:
             print("page")
@@ -56,11 +57,37 @@ class imageProcessing():
 
         images = glob.glob('static/pdftoimg/*.png')
 
+        for j in images:
+            print("images called")
+            img = cv2.imread(j)
+            sentencewords = self.custom_csv(wordstoremove, decontype)
+            tempImg = self.setup_image(img)
+            words, d = self.getWords(tempImg)
+            self.createCSV(words)
+            sentenceindex = []
+            if sentencewords != 'ignorr':
+                sentenceindex = self.drawSentenceBoxes(sentencewords)
+            self.boundBoxesCSV(d) 
+            if os.path.exists("data/custom-words.csv"):
+                with open('data/custom-words.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
+                    main = csv1.readlines()  # Custom Words Dataset
+                    temp = csv2.readlines()  # Dataset created from inputted image
+            else:
+                with open('data/bad.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
+                    main = csv1.readlines()  # Bad Words Dataset
+                    temp = csv2.readlines()  # Dataset created from inputted image
+            # matchedWords = self.matchWords(words, temp, main, sentenceindex)
+            # self.drawBoxes(img, matchedWords) MATCHED WORDS NOT WORKING
+            shutil.copyfile('static/images/output.png', "static/pdftoimg/page.png") # NEEDS PROPER NAMING TO FIX
+
+        images = glob.glob('static/pdftoimg/*.png')
         pdf = FPDF()
         for i in images:
             pdf.add_page()
             pdf.image(i)
         pdf.output("static/images/output.pdf", "F")
+
+        
         
         img = 'static/page-0.jpg'
         print(img)
@@ -175,7 +202,7 @@ class imageProcessing():
         start = cv2.getTickCount()
         self.removeFiles()
         if 'pdf' in img:
-            img = self.pdftoimage(img)
+            self.pdftoimage(img, wordstoremove, decontype)
         if 'pdf' not in img:
             img = cv2.imread(img)
             sentencewords = self.custom_csv(wordstoremove, decontype)
@@ -196,10 +223,11 @@ class imageProcessing():
                     temp = csv2.readlines()  # Dataset created from inputted image
             matchedWords = self.matchWords(words, temp, main, sentenceindex)
             image = self.drawBoxes(img, matchedWords)
+            print("asddasd" + image)
         end = cv2.getTickCount()
         time = (end - start) / cv2.getTickFrequency()
         print("Time: " + str(time))
-
+        image = 'static/page-0.jpg'
         return image
 
 
