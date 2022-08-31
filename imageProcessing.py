@@ -43,6 +43,9 @@ class imageProcessing():
 
         return sentencewords
     
+    def pdftoimage(self, img):
+        print('pdftoimage!!!!')
+        return img
 
     def setup_image(self, img):
         # convert the image to gray scale
@@ -112,7 +115,6 @@ class imageProcessing():
                         line, line + ' ')  # needed for duplicates
                     indexList.append(index)
         indexList.extend(sentenceindex)
-        print(indexList)
         list(set(indexList))
         return indexList
 
@@ -153,6 +155,8 @@ class imageProcessing():
     def run(self, img, wordstoremove, decontype):
         start = cv2.getTickCount()
         self.removeFiles()
+        if 'pdf' in img:
+            img = self.pdftoimage(img)
         img = cv2.imread(img)
         sentencewords = self.custom_csv(wordstoremove, decontype)
         tempImg = self.setup_image(img)

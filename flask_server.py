@@ -55,8 +55,6 @@ def settings():
     color = request.form['color']
     decontype = request.form['decontype']
     wordstoremove = request.form['wordstoremove']
-    if wordstoremove == '':
-        wordstoremove == 'ignore'
     file_url = request.form['image']
     print(type(file_url))
     if file_url != "None":
