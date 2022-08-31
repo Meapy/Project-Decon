@@ -63,7 +63,14 @@ def settings():
         imageProc.run(image, wordstoremove, decontype)
         os.remove(image)
 
-        return render_template('image.html', form=form, file_url='static/images/output.png')
+        print(file_url)
+        if 'pdf' in file_url:
+            print('pdf')
+            return render_template('image.html', form=form, file_url='static/images/output.pdf')
+        if 'pdf' not in file_url:
+            print('notpdf')
+            return render_template('image.html', form=form, file_url='static/images/output.png')
+
     else:
         # route to '/'
         return redirect("/")

@@ -10,6 +10,8 @@ import random
 from csv import writer
 import os
 import fitz
+import img2pdf
+import glob
 
 class imageProcessing():
     
@@ -49,9 +51,14 @@ class imageProcessing():
         for page in doc:
             print("page")
             pix = page.get_pixmap()
-            pix.save("static/pdftoimg/page-%i.png" % page.number)
+            pix.save("static/pdftoimg/page-%i.jpg" % page.number)
+
+        with open("static/images/output.pdf","wb") as f:
+            f.write(img2pdf.convert('static/pdftoimg/page-0.jpg'))
+            f.close()
         
-        img = 'data/page-0.png'
+        img = 'static/page-0.png'
+        print(img)
         return img
 
     def setup_image(self, img):
@@ -166,24 +173,24 @@ class imageProcessing():
             img = self.pdftoimage(img)
         if 'pdf' not in img:
             img = cv2.imread(img)
-        sentencewords = self.custom_csv(wordstoremove, decontype)
-        tempImg = self.setup_image(img)
-        words, d = self.getWords(tempImg)
-        self.createCSV(words)
-        sentenceindex = []
-        if sentencewords != 'ignorr':
-            sentenceindex = self.drawSentenceBoxes(sentencewords)
-        self.boundBoxesCSV(d) 
-        if os.path.exists("data/custom-words.csv"):
-            with open('data/custom-words.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
-                main = csv1.readlines()  # Custom Words Dataset
-                temp = csv2.readlines()  # Dataset created from inputted image
-        else:
-            with open('data/bad.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
-                main = csv1.readlines()  # Bad Words Dataset
-                temp = csv2.readlines()  # Dataset created from inputted image
-        matchedWords = self.matchWords(words, temp, main, sentenceindex)
-        image = self.drawBoxes(img, matchedWords)
+            sentencewords = self.custom_csv(wordstoremove, decontype)
+            tempImg = self.setup_image(img)
+            words, d = self.getWords(tempImg)
+            self.createCSV(words)
+            sentenceindex = []
+            if sentencewords != 'ignorr':
+                sentenceindex = self.drawSentenceBoxes(sentencewords)
+            self.boundBoxesCSV(d) 
+            if os.path.exists("data/custom-words.csv"):
+                with open('data/custom-words.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
+                    main = csv1.readlines()  # Custom Words Dataset
+                    temp = csv2.readlines()  # Dataset created from inputted image
+            else:
+                with open('data/bad.csv', 'r') as csv1, open('data/words-text.csv', 'r') as csv2:
+                    main = csv1.readlines()  # Bad Words Dataset
+                    temp = csv2.readlines()  # Dataset created from inputted image
+            matchedWords = self.matchWords(words, temp, main, sentenceindex)
+            image = self.drawBoxes(img, matchedWords)
         end = cv2.getTickCount()
         time = (end - start) / cv2.getTickFrequency()
         print("Time: " + str(time))
