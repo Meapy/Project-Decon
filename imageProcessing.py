@@ -11,6 +11,7 @@ from csv import writer
 import os
 import fitz
 import img2pdf
+from fpdf import FPDF
 import glob
 
 class imageProcessing():
@@ -51,13 +52,17 @@ class imageProcessing():
         for page in doc:
             print("page")
             pix = page.get_pixmap()
-            pix.save("static/pdftoimg/page-%i.jpg" % page.number)
+            pix.save("static/pdftoimg/page-%i.png" % page.number)
 
-        with open("static/images/output.pdf","wb") as f:
-            f.write(img2pdf.convert('static/pdftoimg/page-0.jpg'))
-            f.close()
+        images = glob.glob('static/pdftoimg/*.png')
+
+        pdf = FPDF()
+        for i in images:
+            pdf.add_page()
+            pdf.image(i)
+        pdf.output("static/images/output.pdf", "F")
         
-        img = 'static/page-0.png'
+        img = 'static/page-0.jpg'
         print(img)
         return img
 
